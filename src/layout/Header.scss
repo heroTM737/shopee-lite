@@ -1,0 +1,11 @@
+.Header {
+  background: linear-gradient(-180deg, #f53d2d, #f63);
+  height: 50px;
+
+  .header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+}
