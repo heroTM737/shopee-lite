@@ -28,6 +28,7 @@ function Header() {
                 </div>
                 {userInfo ? (
                     <div>
+                        <NavLink to={"/cart"} style={{ marginRight: "10px" }}>Cart</NavLink>
                         {userInfo.email}
                         <button
                             onClick={signOut}
