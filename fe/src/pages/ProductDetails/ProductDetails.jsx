@@ -1,11 +1,14 @@
 import './ProductDetails.scss'
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
 import ProductService from "@/services/product.service.js";
+import {useDispatch} from 'react-redux'
+import {addItem} from "@/store/cart.slice.js";
 
 const imgHost = `${import.meta.env.VITE_API_HOST}/api/files/product`
 
-function ProductDetails () {
+function ProductDetails() {
+    const dispatch = useDispatch()
     const params = useParams()
     const [product, setProduct] = useState(null)
     const [quantity, setQuantity] = useState(1)
@@ -17,7 +20,10 @@ function ProductDetails () {
     }, [params.id])
 
     const addToCart = () => {
-
+        dispatch(addItem({
+            product,
+            quantity
+        }))
     }
 
     if (!product) {
@@ -27,7 +33,7 @@ function ProductDetails () {
     return (
         <div className={'ProductDetails'}>
             <div>
-                <img src={`${imgHost}/${product.id}/${product.images[0]}`} alt="img" />
+                <img src={`${imgHost}/${product.id}/${product.images[0]}`} alt="img"/>
             </div>
             <div>
                 <div><b>{product.name}</b></div>
@@ -36,7 +42,7 @@ function ProductDetails () {
                     <input
                         type="number"
                         value={quantity}
-                        onChange={e =>  setQuantity(Number(e.target.value))}
+                        onChange={e => setQuantity(Number(e.target.value))}
                         min={1}
                     />
                 </div>

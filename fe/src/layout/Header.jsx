@@ -1,11 +1,17 @@
 import "./Header.scss"
-import { NavLink, useNavigate } from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import useUserInfo from "@/hooks/useUserInfo.js";
 import UserService from "@/services/user.service.js";
+import {useSelector} from 'react-redux'
 
 function Header() {
     const navigate = useNavigate();
-    const userInfo = useUserInfo()
+    const userInfo = useUserInfo();
+    const cartItemList = useSelector((state) => state.cart.items)
+    const itemCount = cartItemList.reduce(
+        (accumulator, item) => accumulator + item.quantity,
+        0
+    )
 
     const goToSignIn = () => {
         navigate("/sign-in")
@@ -28,18 +34,18 @@ function Header() {
                 </div>
                 {userInfo ? (
                     <div>
-                        <NavLink to={"/cart"} style={{ marginRight: "10px" }}>Cart</NavLink>
+                        <NavLink to={"/cart"} style={{marginRight: "10px"}}>Cart ({itemCount})</NavLink>
                         {userInfo.email}
                         <button
                             onClick={signOut}
-                            style={{ marginLeft: "10px" }}
+                            style={{marginLeft: "10px"}}
                         >Sign out
                         </button>
                     </div>
                 ) : (
                     <div>
                         <button
-                            style={{ marginRight: "10px" }}
+                            style={{marginRight: "10px"}}
                             onClick={goToSignUp}
                         >Sign up
                         </button>
