@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import ProductService from "@/services/product.service.js";
 import {useDispatch} from 'react-redux'
-import {addItem} from "@/store/cart.slice.js";
+import { addItem, addItemById } from "@/store/cart.slice.js";
 
 const imgHost = `${import.meta.env.VITE_API_HOST}/api/files/product`
 
@@ -20,8 +20,15 @@ function ProductDetails() {
     }, [params.id])
 
     const addToCart = () => {
-        dispatch(addItem({
-            product,
+        // add item using product object
+        // dispatch(addItem({
+        //     product,
+        //     quantity
+        // }))
+
+        // add item using product id
+        dispatch(addItemById({
+            id: product.id,
             quantity
         }))
     }
@@ -36,7 +43,7 @@ function ProductDetails() {
                 <img src={`${imgHost}/${product.id}/${product.images[0]}`} alt="img"/>
             </div>
             <div>
-                <div><b>{product.name}</b></div>
+                <div className={'product-name'}><b>{product.name}</b></div>
                 <div className={'price'}>{product.price}</div>
                 <div>
                     <input
@@ -48,6 +55,9 @@ function ProductDetails() {
                 </div>
                 <div>
                     <button onClick={addToCart}>Add to cart</button>
+                </div>
+                <div>
+                    {product.description}
                 </div>
             </div>
         </div>
